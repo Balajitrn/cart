@@ -10,5 +10,7 @@ public interface CartItemRepository extends JpaRepository <CartItem,Long> {
 
 
     List <CartItem> findAllByCartId(Long cart);
+
+//   public Integer getQuantity();
 }
 
