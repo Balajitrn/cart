@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CartService {
@@ -27,7 +28,7 @@ public class CartService {
      *
      * @param cartItemDto
      * @param userId
-     * @return
+     * @return cartDTO
      */
     @Transactional
     public CartDTO addItemToCart(CartItemDTO cartItemDto, Long userId) {
@@ -61,6 +62,11 @@ public class CartService {
 
 
     }
+    /**
+     * @param itemId
+     * @param userId
+     * @return cartDTO
+     */
     @Transactional
     public CartDTO deleteCartItem(Long itemId, Long userId) throws Exception{
         Cart cart = cartRepository.findByUserId(userId);
@@ -73,6 +79,31 @@ public class CartService {
         }
         cartItemRepository.deleteById(itemId);
         return new CartDTO();
+    }
+    public List<CartItemDTO> getItem(Long userId) throws Exception {
+        Cart cart = cartRepository.findByUserId(userId);
+
+        if (cart == null){
+            throw new Exception("The user " + userId + " has no cart now");
+        }
+        Optional <CartItem> cartItemList = cartItemRepository.findById(userId);
+        return cartItemList.stream().map(this::entityToDTO).collect(Collectors.toList());
+
+    }
+
+    private CartItemDTO entityToDTO(CartItem cartItem) {
+        return new CartItemDTO(cartItem.getId(), cartItem.getCart().getId(), cartItem.getQuantity(),cartItem.getProductId());
+
+    }
+
+    public CartItemDTO updateCart(CartItemDTO cartItemDTO, Long id){
+
+        CartItem cartItem = cartItemRepository.findById(id).orElseThrow(()->new IllegalArgumentException("Cart is not found with id = "+id));
+
+        cartItem.setQuantity(cartItemDTO.getQuantity());
+        cartItemRepository.save(cartItem);
+
+        return entityToDTO(cartItem);
     }
 
 }
