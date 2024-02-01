@@ -7,10 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CartItemRepository extends JpaRepository <CartItem,Long> {
+    List<CartItem> findAllByCartId(Long cartId);
+    CartItem findByCartId(Long cart);
 
-
-    List <CartItem> findAllByCartId(Long cart);
-
-//   public Integer getQuantity();
 }
 

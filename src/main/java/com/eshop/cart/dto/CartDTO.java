@@ -13,7 +13,5 @@ import java.util.List;
 @Setter
 public class CartDTO {
     private Long id;
-
     private Long userId;
-    private List <CartItem> cartItems;
 }

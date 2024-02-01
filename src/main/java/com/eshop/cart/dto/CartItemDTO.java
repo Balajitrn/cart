@@ -8,9 +8,8 @@ import lombok.*;
 @Getter
 @Setter
 public class CartItemDTO {
-    private long id;
-    private long cartId;
-    private int quantity;
-    private long productId;
-
+    private Long id;
+    private Integer quantity;
+    private Long productId;
+    private Long cartId;
 }

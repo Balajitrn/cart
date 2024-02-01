@@ -17,8 +17,9 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @OneToOne
-//    private User user;
     @Column(nullable = false)
     private Long userId;
+
+    @OneToMany(mappedBy = "cart")
+    private Set<CartItem> cartItems;
 }
