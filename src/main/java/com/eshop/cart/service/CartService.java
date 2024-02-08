@@ -82,11 +82,11 @@ public class CartService {
     }
     public List<CartItemDTO> getItem(Long userId) throws Exception {
         Cart cart = cartRepository.findByUserId(userId);
-
         if (cart == null){
             throw new Exception("The user " + userId + " has no cart now");
         }
-        Optional <CartItem> cartItemList = cartItemRepository.findById(userId);
+        System.out.println(cartItemRepository);
+        List <CartItem> cartItemList = cartItemRepository.findAllByCartId(cart.getId());
         return cartItemList.stream().map(this::entityToDTO).collect(Collectors.toList());
 
     }
